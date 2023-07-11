@@ -7,16 +7,22 @@ import session from "express-session";
 import cookieParser from "cookie-parser";
 import MongoStore from "connect-mongo";
 
+//Import Routers
 import viewsRouter from './routes/views.routes.js'
 import usersRouter from './routes/users.routes.js';
+import productsRouter from './routes/products.routes.js';
+
 import './passportStrategies.js'
 import './persistence/dbConfig.js'
 import passport from 'passport';
 
-const app = express()
-const PORT = config.port
+/* --------------------------------------------------------- */
 
 //Config
+
+const app = express()
+const PORT = config.port || 8080
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
@@ -44,9 +50,11 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session())
 
-
+//Routers
 app.use('/api/views', viewsRouter)
 app.use('/api/users', usersRouter)
+app.use('/api/products', productsRouter)
+
 
 app.listen(PORT, ()=>{
     console.log(`Server on port ${PORT}`)
